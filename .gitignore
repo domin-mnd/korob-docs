@@ -1,0 +1,8 @@
+node_modules
+.next
+
+# Korob
+dist
+.prettierrc.json
+.prettierignore
+biome.json

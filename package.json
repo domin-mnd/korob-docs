@@ -1,0 +1,26 @@
+{
+  "name": "korob-docs",
+  "version": "1.0.0",
+  "description": "Documentation for korob development tool",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "lint": "korob lint",
+    "format": "korob format"
+  },
+  "author": "domin-mnd",
+  "license": "MIT",
+  "dependencies": {
+    "@remixicon/react": "^4.2.0",
+    "next": "^14.1.4",
+    "nextra": "^2.13.4",
+    "nextra-theme-docs": "^2.13.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.6.3",
+    "korob": "^0.1.1"
+  }
+}

@@ -1,0 +1,66 @@
+import { Callout, FileTree } from "nextra/components";
+
+# Usage
+
+Korob CLI comes with a set of commands to work with typescript/javascript projects.
+It is designed to be as simple and straightforward as possible.
+Each of the command serves its own purpose however all of them share same prepare functionality.
+
+## Config generation
+
+Korob aims to be environment-friendly and this is why it will create additional configuration files
+in order to properly work with the IDE/text editor of your choice:
+
+<FileTree>
+  <FileTree.Folder name="node_modules" open={false} />
+  <FileTree.Folder name="src" defaultOpen>
+    <FileTree.File name="index.ts" />
+  </FileTree.Folder>
+  <FileTree.File name=".gitignore" />
+  <FileTree.File name=".prettierignore" active />
+  <FileTree.File name=".prettierrc.json" active />
+  <FileTree.File name="biome.json" active />
+  <FileTree.File name="korob.config.ts" />
+  <FileTree.File name="package.json" />
+  <FileTree.File name="package-lock.json" />
+</FileTree>
+
+Additionally make sure to add those files to `.gitignore`. This is due to the fact that those files are created for the development purposes only.
+
+Adding following files to ignore list is usually handled by `korob init` but for the sake of manual installation here's the snippet:
+
+```bash copy filename=".gitignore"
+# Korob
+dist
+.prettierrc.json
+.prettierignore
+biome.json
+```
+
+## Editor integration
+
+Korob was made to be used along with extensions for your favorite editor. Here's a list of recommended extensions:
+
+- Biome [VSCode](https://marketplace.visualstudio.com/items?itemName=biomejs.biome) or [JetBrains](https://plugins.jetbrains.com/plugin/22761-biome) extension for formatting and linting
+- Prettier [VSCode](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) or [JetBrains](https://plugins.jetbrains.com/plugin/10456-prettier) extension for fallback formatting
+- Vitest [VSCode](https://marketplace.visualstudio.com/items?itemName=vitest.explorer) extension for testing
+
+## Commands
+
+Besides the config generation there's, of course, more functionality for every command. Here's a short command description:
+
+- `korob build` - Build the project into a bundle taking the `config.build.entry` entry path
+- `korob dev` - Start a development server with hot reloading
+- `korob format` - Format the project using biome and prettier as fallback
+- `korob init` - Initialize existing workspace
+- `korob lint` - Lint the project using biome and prettier as fallback
+- `korob start [PATH]` - Execute javascript/typescript file
+- `korob test` - Test all \*.test.js/ts files via vitest
+
+For more information on commands, head to the corresponding [commands](/commands) section:
+
+<Callout type="info">
+  None of the CLI commands but `korob start` take arguments. This is because the CLI is designed to be as
+  simple as possible. The only source of configuration is `"korob"` key in `package.json` or
+  `korob.config.js`/`korob.config.ts`.
+</Callout>

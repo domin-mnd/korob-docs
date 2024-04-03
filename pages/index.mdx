@@ -1,0 +1,78 @@
+import { Callout, Steps, Cards, Card } from "nextra/components";
+import { RiSettings3Fill, RiJavascriptFill, RiTerminalFill } from "@remixicon/react";
+
+# Overview
+
+![Comparison](/getting-started.png)
+
+Javascript world is an overwhelmengly big ecosystem with a lot of libraries and tools to choose from. It's hard to keep up with all the new stuff that are being released every day. Configuring a new project can be a daunting task. For this reason, korob exists.
+
+Korob is a simple tool to help you build apps and npm packages faster. It comes up with a set of tools and configurations that are commonly used in **modern** javascript projects to help formatting, linting, testing, building and deploying your code.
+
+## Getting started
+
+<Steps>
+
+### Initialize
+
+Start by initializing your existing project with korob:
+
+```bash npm2yarn
+npm exec korob init
+```
+
+<Callout type="info">
+  Korob doesn't come up with project creation command, only initialization. This is intended by design. You
+  can use any boilerplate template you like to create your project.
+</Callout>
+
+### Add scripts
+
+After initializing, you can add the following scripts to your `package.json`:
+
+```json filename="package.json"
+{
+  "scripts": {
+    "build": "korob build",
+    "format": "korob format",
+    "lint": "korob lint",
+    "test": "korob test",
+    "start": "korob start"
+  }
+}
+```
+
+These scripts will help you working with your project. You're free to add the only scripts you need. Korob is aimed to be flexible with any workspace.
+
+### Adjust configuration
+
+After executing the initialization command, you can adjust `korob.config.ts` (created if `korob` is installed) to your needs:
+
+```ts copy showLineNumbers filename="korob.config.ts"
+import { defineConfig } from "korob";
+
+export default defineConfig({
+  start: {
+    entry: "src/main.ts",
+  },
+  build: {
+    minify: false,
+    dts: false,
+  },
+  diagnostics: {
+    biome: {
+      extends: ["@domin-mnd/config/biome"],
+    },
+  },
+});
+```
+
+</Steps>
+
+Next, check out following sections to learn about how to configure your workspace:
+
+<Cards>
+  <Card icon={<RiSettings3Fill />} title="Configuration" href="/config" />
+  <Card icon={<RiJavascriptFill />} title="JavaScript API" href="/js-api" />
+  <Card icon={<RiTerminalFill />} title="Commands" href="/commands" />
+</Cards>
