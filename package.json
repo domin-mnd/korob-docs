@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "korob lint",
-    "format": "korob format"
+    "format": "korob format",
+    "build:docs": "korob build"
   },
   "author": "domin-mnd",
   "license": "MIT",
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.6.3",
+    "@types/node": "20.12.6",
     "korob": "^0.1.1"
   }
 }

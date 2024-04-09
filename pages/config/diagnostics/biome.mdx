@@ -1,0 +1,52 @@
+import { Callout } from "nextra/components";
+
+# `config.diagnostics.biome`
+
+Biome configuration is used to be provided for `korob format` & `korob lint` commands. It configures the diagnostics checking steps:
+
+```ts showLineNumbers filename="korob.config.ts"
+import { defineConfig } from "korob";
+
+export default defineConfig({
+  diagnostics: {
+    // options for the format & lint commands
+    biome: {
+      formatter: {
+        lineEnding: "lf",
+      },
+      linter: {
+        rules: {
+          style: {
+            noArguments: "off",
+          },
+        },
+      },
+      json: {
+        parser: {
+          allowComments: true,
+        },
+      },
+    },
+  },
+});
+```
+
+## Default values
+
+Configuration extends default [`@domin-mnd/config/biome`](https://github.com/domin-mnd/config/blob/master/biome/default.json).
+
+```ts filename="Default config"
+biome: {
+  $schema: "https://biomejs.dev/schemas/1.6.3/schema.json",
+  extends: ["@domin-mnd/config/biome"],
+}
+```
+
+## Configuration reference
+
+All of the configuration options are **identical** to the biome ones as korob is a wrapper around it.
+
+<Callout type="warning">
+  Documentation for all of the options can be found in [biome
+  docs](https://biomejs.dev/reference/configuration/).
+</Callout>

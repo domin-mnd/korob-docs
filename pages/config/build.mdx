@@ -1,0 +1,75 @@
+import { Callout } from "nextra/components";
+
+# `config.build`
+
+Build configuration is used to be provided for `korob build` & `korob dev` commands. It configures building process:
+
+```ts showLineNumbers filename="korob.config.ts"
+import { defineConfig } from "korob";
+
+export default defineConfig({
+  // options for the build & dev commands
+  build: [
+    {
+      entry: ["src/main.ts"],
+      format: ["cjs", "esm"],
+    },
+    {
+      entry: ["scripts"],
+      format: ["cjs"],
+      outDir: "scripts",
+      clean: true,
+    },
+    {
+      entry: ["src/bin.ts"],
+      format: ["iife"],
+      outDir: "bin",
+    },
+  ],
+});
+```
+
+## Default values
+
+```ts filename="Default config"
+build: {
+  entry: ["src/index.ts"],
+  target: "node16",
+  outDir: "dist",
+  external: ["react", "react-dom"],
+}
+```
+
+## Configuration reference
+
+All of the configuration options are **inherited** from the tsup.
+
+<Callout type="warning">
+  Documentation for all of the options can be found in [tsup
+  docs](https://tsup.egoist.dev/).
+</Callout>
+
+## Difference
+
+Korob overrides some of the tsup configuration options.
+
+### `config.build.silent`
+
+- **Type:** `never`
+- **Default:** `true`
+
+Silent option is completely removed from the configuration. It is overriden by the korob's internal logger.
+
+### `config.build.watch`
+
+- **Type:** `never`
+- **Default:** `false`
+
+Watching is handled by `korob dev` command, this is why there's no reason to add complexity.
+
+### `config.build.ignoreWatch`
+
+- **Type:** `never`
+- **Default:** `[]`
+
+Ignore watch is removed from the configuration because of the lack of `config.build.watch`.

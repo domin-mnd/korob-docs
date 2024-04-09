@@ -1,0 +1,38 @@
+import { Callout } from "nextra/components";
+
+# `config.diagnostics.prettier`
+
+Prettier configuration is used to be provided for `korob format` & `korob lint` commands. It configures the diagnostics checking steps:
+
+```ts showLineNumbers filename="korob.config.ts"
+import { defineConfig } from "korob";
+
+export default defineConfig({
+  diagnostics: {
+    // options for the format & lint commands
+    prettier: {
+      endOfLine: "lf",
+      jsxSingleQuote: true,
+      useTabs: false,
+    },
+  },
+});
+```
+
+## Default values
+
+```ts filename="Default config"
+prettier: {
+  tabWidth: 2,
+  semi: true,
+}
+```
+
+## Configuration reference
+
+All of the configuration options are **identical** to the prettier ones as korob is a wrapper around it.
+
+<Callout type="warning">
+  Documentation for all of the options can be found in [prettier
+  docs](https://prettier.io/docs/en/options).
+</Callout>

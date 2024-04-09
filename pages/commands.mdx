@@ -1,0 +1,219 @@
+import { Callout, FileTree } from "nextra/components";
+
+# Commands
+
+As it was mentioned in the [Getting started](/) section, Korob is a CLI tool that provides a set of commands to help you with your project.
+The commands are designed to be as simple as possible and to be used in a way that is easy to understand
+and this is why commands do not take additional arguments but only the configuration file.
+
+## `korob init`
+
+Init command is used to initialize an existing workspace.
+
+It scaffolds some of the optional files for the project:
+
+- `korob.config.ts` file in the root of the project (if `korob` is picked as a dependency option).
+- `.vscode/settings.json` settings file for correct detection of formatting & linting.
+- `.gitignore` if it doesn't exist. Appends cache & config files in order to not push them.
+
+<Callout type="warning">
+  You're free to install only the tools you need by checking dependencies you
+  want to install. Some of the tools won't work without installing optional
+  dependencies.
+</Callout>
+
+Configuration only offers a single option for the command itself:
+
+```ts showLineNumbers filename="korob.config.ts"
+import { defineConfig } from "korob";
+
+export default defineConfig({
+  init: {
+    createVscode: false,
+  },
+});
+```
+
+## `korob start [PATH]`
+
+Start command executes javascript/typescript file without the need of running `korob build`.
+
+It takes `config.start` configuration options similar to `config.build`.
+By default, it uses `src/index.ts` as an entry file,
+however you can override it by providing CLI argument or an entry option:
+
+```ts showLineNumbers filename="korob.config.ts"
+import { defineConfig } from "korob";
+
+export default defineConfig({
+  start: {
+    entry: "src/main.ts",
+  },
+});
+```
+
+The only difference between `config.start` & `config.build` options is that start only takes an object of options & the entry is a non-array string.
+While `config.build` may take an array of building entries & an array of options:
+
+```ts showLineNumbers filename="korob.config.ts"
+import { defineConfig } from "korob";
+
+export default defineConfig({
+  start: {
+    entry: "src/main.ts",
+  },
+  build: [
+    {
+      entry: ["src/main.ts", "src/index.ts"],
+      outDir: "dist",
+    },
+    {
+      entry: ["src/bin.js"],
+      outDir: "bin",
+    },
+  ],
+});
+```
+
+## `korob build`
+
+Build command is used to bundle the project using [esbuild](https://esbuild.github.io/).
+
+It takes modified [tsup](https://tsup.egoist.dev/) options as an interface for configuration.
+By default korob comes with following built-in options:
+
+```ts filename="Default config"
+build: {
+  entry: ["src/index.ts"],
+  target: "node16",
+  outDir: "dist",
+  external: ["react", "react-dom"],
+}
+```
+
+These options can be overriden. The only exception is that array options are not overriden but extended instead:
+
+```ts showLineNumbers filename="korob.config.ts"
+import { defineConfig } from "korob";
+
+export default defineConfig({
+  build: {
+    entry: ["src/main.ts"],
+    outDir: "bin",
+    external: ["typescript"],
+  },
+});
+// Following configuration is converted to
+// {
+//   build: {
+//     entry: ["src/main.ts", "src/index.ts"],
+//     target: "node16",
+//     outDir: "bin",
+//     external: ["typescript", "react", "react-dom"],
+//   }
+// }
+```
+
+If you want to **completely override** the default config, then use an array for a `build` key:
+
+```ts showLineNumbers filename="korob.config.ts"
+import { defineConfig } from "korob";
+
+export default defineConfig({
+  build: [
+    {
+      entry: ["src/main.ts"],
+      outDir: "bin",
+      external: ["typescript"],
+    },
+  ],
+});
+// Following configuration is converted to
+// {
+//   build: [
+//     {
+//       entry: ["src/main.ts"],
+//       outDir: "bin",
+//       external: ["typescript"],
+//     },
+//   ],
+// }
+```
+
+## `korob dev`
+
+Dev command is used to start a development server with hot reloading using [chokidar](https://github.com/paulmillr/chokidar).
+It is essentially watch version of [`korob build`](#korob-build). It uses `config.build` options for configuration as well.
+
+## `korob format`
+
+Format command is used to format the project using [biome](https://biomejs.dev/) and [prettier](https://prettier.io/).
+
+Daignostic commands take `config.diagnostics.biome` & `config.diagnostics.prettier` configuration options for biome & prettier correspondingly.
+
+<Callout type="default">
+  Prettier is the part of the project because it is used as a fallback for
+  biome. Biome currently supports following languages: javascript, typescript,
+  jsx, tsx, json & jsonc. In future versions of korob, it is planned to remove
+  prettier support. Find more about the current biome language support on [this
+  page](https://biomejs.dev/internals/language-support/).
+</Callout>
+
+Although korob aims to be simple, it does not offer a unified biome & prettier configuration therefore you can configure them separately:
+
+```ts showLineNumbers filename="korob.config.ts"
+import { defineConfig } from "korob";
+
+export default defineConfig({
+  diagnostics: {
+    prettier: {
+      tabWidth: 2,
+      printWidth: 110,
+    },
+    biome: {
+      formatter: {
+        indentWidth: 2,
+        lineWidth: 110,
+      },
+    },
+  },
+});
+```
+
+<Callout type="info">
+  Biome only provides a transparent configuration API over biome & prettier.
+  Check the [biome](https://biomejs.dev/formatter/) &
+  [prettier](https://prettier.io/docs/en/options) documentation for more
+  information.
+</Callout>
+
+## `korob lint`
+
+Lint command is used to check linter & formatter errors. It uses [biome](https://biomejs.dev/) and [prettier](https://prettier.io/) as well.
+
+Daignostic commands take `config.diagnostics.biome` & `config.diagnostics.prettier` configuration options for biome & prettier correspondingly.
+
+<Callout type="info">
+  Biome only provides a transparent configuration API over biome & prettier.
+  Check the [biome](https://biomejs.dev/linter/rules/) &
+  [prettier](https://prettier.io/docs/en/options) documentation for more
+  information.
+</Callout>
+
+## `korob test`
+
+Besides formatting, linting & building your project korob also offers vitest integration.
+It is a simple test runner that runs all \*.test.js/ts files in your project.
+
+It uses `config.test` options for configuration. It is identical to `vite.config.ts`' `test` option:
+
+```ts showLineNumbers filename="korob.config.ts"
+import { defineConfig } from "korob";
+
+export default defineConfig({
+  test: {
+    cache: false,
+    globals: true,
+  },
+});
+```

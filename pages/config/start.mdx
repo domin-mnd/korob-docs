@@ -1,0 +1,74 @@
+import { Callout } from "nextra/components";
+
+# `config.start`
+
+Start configuration is used to be provided for `korob start` command. It configures building process step of the command:
+
+```ts showLineNumbers filename="korob.config.ts"
+import { defineConfig } from "korob";
+
+export default defineConfig({
+  // options for the test command
+  start: {
+    entry: "src/main.ts",
+    format: "esm",
+    watch: true,
+  },
+});
+```
+
+## Default values
+
+```ts filename="Default config"
+start: {
+  entry: "src/index.ts",
+  format: "cjs",
+  skipNodeModulesBundle: true,
+  dts: false,
+  sourcemap: false,
+  external: ["react", "react-dom"],
+  minify: false,
+}
+```
+
+## Configuration reference
+
+All of the configuration options are **inherited** from the tsup.
+
+<Callout type="warning">
+  Documentation for all of the options can be found in [tsup
+  docs](https://tsup.egoist.dev/).
+</Callout>
+
+## Difference
+
+Korob overrides some of the tsup configuration options.
+
+### `config.start.silent`
+
+- **Type:** `never`
+- **Default:** `true`
+
+Silent option is completely removed from the configuration. It is overriden by the korob's internal logger.
+
+### `config.start.entry`
+
+- **Type:** `string`
+- **Default:** `"src/index.ts"`
+
+Entry option now allows to specify only single entrypoint instead of an array. It can only be a path to a file & not a directory.
+
+### `config.start.entryPoints`
+
+- **Type:** `never`
+- **Default:** `undefined`
+
+This option is considered deprecated in `tsup` as well as `config.start.entry` now accepts only a single entrypoint.
+This is why it is removed from the configuration.
+
+### `config.start.format`
+
+- **Type:** `"cjs" | "esm" | "iife"`
+- **Default:** `"cjs"`
+
+Because of the meaning of start command, you can only specify single executable format instead of an array.

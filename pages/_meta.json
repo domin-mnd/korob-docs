@@ -2,13 +2,12 @@
   "index": "Getting started",
   "usage": "Usage",
   "commands": "Commands",
-  "comparison": "Comparison",
   "js-api": "JavaScript API",
   "config": "Config",
   "typedoc": {
     "title": "Reference",
     "type": "page",
-    "href": "https://paka.dev/npm/korob@0.1.1/api",
+    "href": "https://paka.dev/npm/korob",
     "newWindow": true
   }
 }

@@ -1,0 +1,94 @@
+import { Callout } from "nextra/components";
+
+# Javascript API
+
+<Callout type="error">
+  Using javascript API is experimental and may change in the future. Feel free to provide feedback or
+  suggestions via [issues](https://github.com/domin-mnd/korob/issues/new).
+</Callout>
+
+Korob also offers programmatic way of working with your project i.e. it offers a way of writing scripts to automate stuff.
+
+Small example of how you can use Korob's Javascript API to build, format, lint, test and run your project by executing single file:
+
+```ts showLineNumbers filename="scripts/setup.ts"
+import {
+  build,
+  dev,
+  format,
+  lint,
+  test,
+  defineConfig,
+  type Config,
+} from "korob";
+
+main();
+async function main() {
+  const isProduction = process.env.NODE_ENV === "production";
+
+  const config = defineConfig({
+    build: {
+      dts: isProduction,
+      external: ["react"],
+    },
+    test: {
+      cache: false,
+    },
+  });
+
+  await format(config);
+
+  if (isProduction) await prod(config);
+  else await dev(config);
+}
+
+async function prod(config: Config) {
+  return Promise.allSettled([lint(config), build(config), test(config)]);
+}
+```
+
+Running the script will conditionally execute korob API. You can execute it, for example, using `korob start scripts/setup.ts` command.
+
+## Parameters
+
+All of the functions for executing certain tasks take only 1 parameter - `config`
+which is an object that contains configuration for the task defined by `defineConfig`.
+
+<Callout type="warning">
+  Ignoring the configuration parameter will **NOT** use the default configuration. Instead it will be using
+  empty object `{}` as a fallback.
+</Callout>
+
+## Functions
+
+### `start(config)`
+
+Executes javascript/typescript files, similar to [`korob start`](/commands#korob-start).
+
+### `build(config)`
+
+Builds the project, similar to [`korob build`](/commands#korob-build).
+
+### `dev(config)`
+
+Starts the development server, similar to [`korob dev`](/commands#korob-dev).
+
+### `format(config)`
+
+Formats the project, similar to [`korob format`](/commands#korob-format).
+
+### `lint(config)`
+
+Lints and checks formatting of the project, similar to [`korob lint`](/commands#korob-lint).
+
+### `test(config)`
+
+Tests the project, similar to [`korob test`](/commands#korob-test).
+
+### `init(config)`
+
+Initializes the project using the provided configuration, similar to [`korob init`](/commands#korob-init).
+
+### `defineConfig(config)`
+
+Defines the configuration for the project. Only used as a type-safe wrapper.

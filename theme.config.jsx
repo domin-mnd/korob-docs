@@ -3,7 +3,7 @@ import { useConfig } from "nextra-theme-docs";
 export default {
   logo: (
     <>
-      <img src="korob.svg" width={40} height={40} alt="Korob logo" />
+      <img src="/korob.svg" width={40} height={40} alt="Korob logo" />
       <span style={{ marginLeft: ".4em", fontWeight: 800 }}>
         Korob
       </span>

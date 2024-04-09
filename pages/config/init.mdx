@@ -1,0 +1,35 @@
+import { Callout, Steps } from "nextra/components";
+
+# `config.init`
+
+Initialization configuration is used to be provided for `korob init` command. It predefines init options:
+
+```ts showLineNumbers filename="korob.config.ts"
+import { defineConfig } from "korob";
+
+export default defineConfig({
+  // options for the init command
+  init: {
+    createVscode: false,
+  },
+});
+```
+
+## Default values
+
+```ts filename="Default config"
+init: {
+  createVscode: true,
+}
+```
+
+## Configuration reference
+
+There's only one option for `config.init` configuration at the moment.
+
+### `config.init.createVscode`
+
+- **Type**: `boolean`
+- **Default**: `true`
+
+Whether to create `.vscode` directory with recommended settings for the project when Visual Studio Code text editor found.

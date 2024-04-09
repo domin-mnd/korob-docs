@@ -1,0 +1,7 @@
+{
+  "build": "Build",
+  "diagnostics": "Diagnostics",
+  "init": "Init",
+  "start": "Start",
+  "test": "Test"
+}

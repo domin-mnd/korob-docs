@@ -1,0 +1,36 @@
+import { Callout } from "nextra/components";
+
+# `config.test`
+
+Test configuration is used to be provided for `korob test` command. It configures the test runner and test environment:
+
+```ts showLineNumbers filename="korob.config.ts"
+import { defineConfig } from "korob";
+
+export default defineConfig({
+  // options for the test command
+  test: {
+    cache: false,
+    globals: true,
+  },
+});
+```
+
+## Default values
+
+```ts filename="Default config"
+test: {
+  coverage: {
+    provider: "v8",
+  },
+}
+```
+
+## Configuration reference
+
+All of the configuration options are **identical** to the vitest ones as korob is a wrapper around it.
+
+<Callout type="warning">
+  Documentation for all of the options can be found in [vitest
+  docs](https://vitest.dev/config).
+</Callout>
